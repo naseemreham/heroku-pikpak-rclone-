@@ -1,0 +1,15 @@
+{
+  "name": "heroku-pikpak-rclone",
+  "description": "Rclone on Heroku for PikPak → Google Drive",
+  "buildpacks": [
+    { "url": "https://github.com/heroku/heroku-buildpack-apt" },
+    { "url": "https://github.com/The-Antrax/heroku-buildpack-rclone-mod" }
+  ],
+  "env": {
+    "PIKPAK_USER": { "description": "Your PikPak email", "required": true },
+    "PIKPAK_PASS": { "description": "Your PikPak password", "required": true },
+    "GDRIVE_TOKEN": { "description": "Google Drive OAuth token JSON", "required": true },
+    "FOLDER_PATH": { "description": "PikPak folder to transfer (e.g. /)", "value": "/" },
+    "DEST_PATH": { "description": "Destination in Google Drive (e.g. MyDrive/PikPak)", "value": "" }
+  }
+}
