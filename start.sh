@@ -1,17 +1,19 @@
-#!/usr/bin/env bash
-set -e
+#!/bin/bash
+set -o errexit
+set -o xtrace
 
-# .rclone.conf बनाओ (env vars से)
-cat > /app/.rclone.conf <<EOF
-[pikpak]
-type = pikpak
-user = ${PIKPAK_USER}
-pass = ${PIKPAK_PASS}
+# Download latest rclone
+curl -O https://downloads.rclone.org/rclone-current-linux-amd64.zip
+unzip -o rclone-current-linux-amd64.zip
+cd rclone-*-linux-amd64
+cp rclone /app/bin/
+cd ..
 
-[gdrive]
-type = drive
-token = ${GDRIVE_TOKEN}
-EOF
+# Check rclone
+/app/bin/rclone version
 
-# Rclone copy चलाओ
-rclone copy "pikpak:${FOLDER_PATH}" "gdrive:${DEST_PATH}" --config /app/.rclone.conf --progress
+# Keep dyno alive (1 hour loop)
+while true; do
+  echo "Rclone running..."
+  sleep 300
+done
